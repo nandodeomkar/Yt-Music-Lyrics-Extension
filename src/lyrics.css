@@ -1,0 +1,319 @@
+:root {
+  --bg: #0f0f0f;
+  --panel: #1c1c1c;
+  --panel-2: #262626;
+  --text: #f1f1f1;
+  --muted: #aaaaaa;
+  --accent: #ff0033;
+  --border: #333333;
+  --lyrics-size: 17px;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #ffffff;
+    --panel: #f6f6f6;
+    --panel-2: #ececec;
+    --text: #101010;
+    --muted: #606060;
+    --border: #d8d8d8;
+    color-scheme: light;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Roboto, "Segoe UI", Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 24px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.song h1 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.song p {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+button, .chip {
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  padding: 7px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+button:hover, .chip:hover {
+  background: var(--border);
+  border-color: var(--muted);
+}
+
+button.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/*
+ * Pinned, and what is on screen is still what was pinned: .on already carries
+ * that, so only the third state needs a rule. An outline in the accent colour
+ * rather than a fill — there is something saved, but it is not this.
+ */
+#pinBtn.pin--dirty {
+  background: var(--panel-2);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+/* ----------------------------------------------------------- sync offset */
+
+/*
+ * Under the header rather than in it. The bar already carries five controls
+ * and a sixth would wrap into a second row of pills on a narrow panel — a
+ * strip that appears and leaves with the timed lines it adjusts reads better
+ * than one that permanently reshapes the header.
+ */
+.offset {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 24px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.offset button {
+  padding: 3px 12px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.offset-label {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* Reads as a readout rather than a control, which is what it mostly is —
+   pressing it only resets. Tabular figures so the strip does not twitch as
+   the number changes width. */
+.offset-value {
+  min-width: 4.5em;
+  justify-content: center;
+  border-color: transparent;
+  background: none;
+  color: var(--text);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.offset-value:hover {
+  background: var(--panel-2);
+  border-color: var(--border);
+}
+
+.offset-value.is-set {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Seconds until the next line is due. The only readout here that answers every
+   press, so it sits where the eye lands after using the buttons. */
+.offset-next {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: right;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+main {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.status {
+  color: var(--muted);
+  padding: 32px 0;
+  text-align: center;
+}
+
+.lyrics {
+  margin: 0 0 32px;
+  padding: 22px 24px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: var(--lyrics-size);
+  line-height: 1.85;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+}
+
+/* ------------------------------------------------------------ synced view */
+
+/*
+ * The same <pre>, one element per timed line. Everything is dimmed so the line
+ * that is playing does not have to shout to be found, and the whole block sits
+ * a little looser than the plain view because a line is now a target as well
+ * as a sentence.
+ */
+.lyrics--synced {
+  line-height: 1.6;
+  padding: 16px 24px 16px 22px;
+}
+
+.lyrics--synced .line {
+  padding: 3px 8px;
+  border-left: 2px solid transparent;
+  border-radius: 0 6px 6px 0;
+  color: var(--muted);
+  transition: color 140ms ease, background 140ms ease, border-color 140ms ease;
+}
+
+/* Clicking a line jumps the player, which is only on offer while we know
+   where the song is — a panel with no player behind it just shows the words.
+   A gap is excluded here rather than overridden below: this selector carries
+   one class more, so a plain .line--gap rule would lose to it. */
+.lyrics--synced.can-seek .line:not(.line--gap) { cursor: pointer; }
+
+.lyrics--synced .line:hover {
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+.lyrics--synced .line.is-current {
+  color: var(--text);
+  border-left-color: var(--accent);
+  font-weight: 600;
+  position: relative;
+}
+
+/*
+ * How far through the lit line the song has got. Without it the offset control
+ * is untunable: a line lasts seconds, so a quarter-second nudge usually leaves
+ * the same line lit and looks like nothing happened. This moves on every press,
+ * and fills exactly as the next line is due — which is what you are matching
+ * against the voice.
+ */
+.lyrics--synced .line.is-current::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: calc(var(--line-progress, 0) * 100%);
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+}
+
+/* A timed line with no words: the interlude between two stanzas. It keeps its
+   place so the highlight has somewhere to be, and offers nothing to click. */
+.lyrics--synced .line--gap {
+  min-height: 0.7em;
+  cursor: default;
+}
+
+.lyrics--synced .line--gap:hover { background: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lyrics--synced .line { transition: none; }
+}
+
+h2 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.notice {
+  margin: 0;
+  padding: 12px 24px;
+  background: #3a2a00;
+  border-bottom: 1px solid #5a4200;
+  color: #ffd479;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (prefers-color-scheme: light) {
+  .notice { background: #fff5d6; border-bottom-color: #e6cf8a; color: #6b5200; }
+}
+
+.notice button {
+  background: transparent;
+  border-color: currentColor;
+  color: inherit;
+}
+
+footer {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 16px 24px 40px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+footer a { color: var(--muted); }

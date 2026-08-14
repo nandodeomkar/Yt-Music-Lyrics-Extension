@@ -1,0 +1,9 @@
+{
+  "name": "yt-music-lyrics-router",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chromium extension that opens Hinglish/English lyrics for the song playing on YouTube Music.",
+  "scripts": {
+    "test": "node test/run-tests.js"
+  }
+}

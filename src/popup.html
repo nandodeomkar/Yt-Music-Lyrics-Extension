@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Lyrics</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <section class="now">
+    <div class="label">Now playing</div>
+    <div id="title" class="title">Checking…</div>
+    <div id="artist" class="artist"></div>
+  </section>
+
+  <button id="primary" class="primary" type="button" disabled>Open lyrics</button>
+
+  <div class="label">Or open on</div>
+  <div id="providers" class="providers"></div>
+
+  <div class="row">
+    <button id="romanize" type="button" disabled>Romanize page lyrics</button>
+    <button id="options" type="button">Settings</button>
+  </div>
+
+  <div id="hint" class="hint">Alt+L opens the side panel · Alt+R romanizes the page · Alt+Shift+L uses the fallback site</div>
+
+  <script src="translit.js"></script>
+  <script src="common.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

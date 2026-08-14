@@ -1,0 +1,48 @@
+.ytml-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.ytml-btn {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-family: Roboto, "YouTube Sans", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.ytml-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.ytml-btn:active {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.ytml-btn--on {
+  background: #ff0033;
+  border-color: #ff0033;
+  color: #fff;
+}
+
+.ytml-btn--on:hover {
+  background: #ff2a52;
+  border-color: #ff2a52;
+}

@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "YT Music Lyrics Router",
+  "version": "1.5.0",
+  "description": "Show Hinglish/English lyrics for the song playing on YouTube Music in the browser side panel, and romanize Devanagari lyrics in place.",
+  "permissions": ["storage", "contextMenus", "sidePanel"],
+  "host_permissions": [
+    "https://music.youtube.com/*",
+    "https://lrclib.net/*"
+  ],
+  "optional_host_permissions": [
+    "https://itunes.apple.com/*",
+    "https://lyricsmint.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://music.youtube.com/*"],
+      "js": ["src/translit.js", "src/common.js", "src/content.js"],
+      "css": ["src/content.css"],
+      "run_at": "document_idle",
+      "all_frames": false
+    },
+    {
+      "matches": ["https://music.youtube.com/*"],
+      "js": ["src/page-bridge.js"],
+      "world": "MAIN",
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup.html",
+    "default_title": "Lyrics for the current song",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "options_page": "src/options.html",
+  "commands": {
+    "open-lyrics": {
+      "suggested_key": { "default": "Alt+L" },
+      "description": "Open lyrics for the current song"
+    },
+    "open-lyrics-fallback": {
+      "suggested_key": { "default": "Alt+Shift+L" },
+      "description": "Open lyrics with the fallback provider"
+    },
+    "toggle-romanize": {
+      "suggested_key": { "default": "Alt+R" },
+      "description": "Romanize / restore the YouTube Music lyrics panel"
+    }
+  }
+}

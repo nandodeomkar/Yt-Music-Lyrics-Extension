@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YT Music Lyrics Router — settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <h1>YT Music Lyrics Router</h1>
+    <p class="sub">Routes the song playing on YouTube Music to Hinglish / English lyrics.</p>
+
+    <section>
+      <h2>Where lyrics open</h2>
+
+      <label class="field">
+        <span>Default provider <em>(the Lyrics button and Alt+L)</em></span>
+        <select id="provider"></select>
+        <small id="providerHint"></small>
+      </label>
+
+      <label class="field">
+        <span>Fallback provider <em>(Shift+click, Alt+Shift+L, and when the panel finds nothing)</em></span>
+        <select id="fallbackProvider"></select>
+        <small id="fallbackHint"></small>
+      </label>
+
+      <label class="field">
+        <span>Extra search words</span>
+        <input id="querySuffix" type="text" placeholder="lyrics english">
+        <small>Appended to search-engine queries. Try <code>lyrics english</code>, <code>lyrics hinglish</code> or <code>lyrics meaning</code>.</small>
+      </label>
+
+      <label class="check"><input id="includeAlbum" type="checkbox"> Include the album / movie name in the search</label>
+      <label class="check"><input id="romanizeQuery" type="checkbox"> Romanize Devanagari song titles before searching</label>
+      <label class="check"><input id="openInBackground" type="checkbox"> Open the lyrics tab in the background</label>
+      <label class="check"><input id="autoFallback" type="checkbox"> If the lyrics tab finds nothing, redirect to the fallback provider</label>
+      <p class="sub">The side panel never redirects itself — it offers the fallback as a button instead.
+      It needs Chrome 114 or newer; on anything older the extension opens the lyrics tab.</p>
+    </section>
+
+    <section>
+      <h2>Following the song</h2>
+      <p class="sub">LRCLIB stores a timed version of a good share of its catalogue. When the track
+      playing has one, the panel highlights the line that is singing, scrolls to keep it in view, and
+      jumps the player to any line you click. Scrolling yourself hands control back for a few seconds.</p>
+
+      <label class="check"><input id="syncedLyrics" type="checkbox"> Highlight the current line when the lyrics are timed</label>
+      <p class="sub">The <strong>Sync</strong> button in the panel turns it off for one song without
+      changing this. Tracks with no timings are shown as plain text exactly as before, and the panel
+      says which of its other matches are timed with a <code>◍</code>.</p>
+    </section>
+
+    <section>
+      <h2>Identifying the song</h2>
+      <p class="sub">The same song reaches YouTube Music as an original, a lyrical video, a remix
+      and any number of re-uploads, each titled by whoever uploaded it. This looks the song up in
+      Apple's music catalogue and checks the answer against the runtime of what is playing, so the
+      lyrics search gets the real title and artist instead of the uploader's.</p>
+
+      <label class="check"><input id="resolveSong" type="checkbox"> Identify uploads against the Apple Music catalogue</label>
+      <small id="resolveSongHint"></small>
+      <p class="sub">Only used when the metadata looks like an upload — a catalogue entry that already
+      knows its own title and artist is left alone. Turning this on asks for permission to contact
+      <code>itunes.apple.com</code>; nothing else changes, and no lyrics come from there. Untick it to
+      revoke the permission again.</p>
+    </section>
+
+    <section>
+      <h2>When LRCLIB has nothing</h2>
+      <p class="sub">LRCLIB is community-maintained and its Hindi catalogue thins out the further back
+      you go. LyricsMint carries a lot of what it misses, in Hinglish, and files songs at a predictable
+      address — so this reads the page for the film and song already identified rather than searching
+      or crawling. It runs only after every LRCLIB attempt has come back empty.</p>
+
+      <label class="check"><input id="useLyricsMint" type="checkbox"> Look up missing lyrics on LyricsMint</label>
+      <small id="useLyricsMintHint"></small>
+      <p class="sub">Asks for permission to contact <code>lyricsmint.com</code>; untick to revoke it.
+      Lyrics are copyrighted and LyricsMint licenses them for use on its own site, so this is for your
+      own reading — check their <a href="https://lyricsmint.com/terms" target="_blank" rel="noreferrer">terms</a>
+      before relying on it, and expect it to break if they change their markup.</p>
+    </section>
+
+    <section>
+      <h2>On the YouTube Music page</h2>
+      <label class="check"><input id="showPlayerButton" type="checkbox"> Show the Lyrics button in the player bar</label>
+      <label class="check"><input id="autoRomanize" type="checkbox"> Automatically romanize Devanagari lyrics</label>
+    </section>
+
+    <section>
+      <h2>Transliteration test</h2>
+      <p class="sub">Paste Devanagari to see exactly what the romanizer produces.</p>
+      <textarea id="testIn" rows="4" placeholder="तेरे बिना ज़िंदगी से कोई शिकवा तो नहीं"></textarea>
+      <pre id="testOut" class="out"></pre>
+    </section>
+
+    <section>
+      <h2>Keyboard shortcuts</h2>
+      <ul class="keys">
+        <li><kbd>Alt</kbd>+<kbd>L</kbd> — open lyrics for the current song</li>
+        <li><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd> — open with the fallback provider</li>
+        <li><kbd>Alt</kbd>+<kbd>R</kbd> — romanize / restore the YouTube Music lyrics panel</li>
+      </ul>
+      <p class="sub">Change them at <code>chrome://extensions/shortcuts</code>.</p>
+    </section>
+
+    <p id="saved" class="saved" hidden>Saved</p>
+  </main>
+
+  <script src="translit.js"></script>
+  <script src="common.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

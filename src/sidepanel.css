@@ -1,0 +1,123 @@
+/*
+ * Narrow-column overrides for lyrics.css. The side panel is typically
+ * 320-500px wide, so the tab layout's centred 820px column and 24px gutters
+ * have to give way; everything else is inherited.
+ */
+
+.bar {
+  padding: 10px 12px;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.song h1 {
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.song p {
+  font-size: 12px;
+}
+
+/* Six pills is one more than this column comfortably holds: at the stock 6px
+   gap and 9px padding the row wraps below 360px, which covers a good part of
+   the side panel's usable range. Four and seven keep it on one line down to
+   320px, Chrome's practical minimum, without shrinking the text. */
+.actions {
+  gap: 4px;
+}
+
+.actions button {
+  padding: 4px 7px;
+  font-size: 12px;
+}
+
+.offset {
+  padding: 6px 12px;
+  gap: 6px;
+}
+
+/* Four controls plus a word do not fit a 320px panel, and the word is the
+   part the buttons already explain. */
+.offset-label { display: none; }
+
+.offset button { padding: 2px 10px; }
+
+.offset-value { min-width: 4em; }
+
+main {
+  max-width: none;
+  padding: 12px;
+}
+
+.lyrics {
+  padding: 14px 14px;
+  margin-bottom: 22px;
+  border-radius: 10px;
+  line-height: 1.75;
+}
+
+.lyrics--synced {
+  padding: 10px 12px 10px 10px;
+  line-height: 1.55;
+}
+
+.status {
+  padding: 24px 0;
+  font-size: 13px;
+}
+
+.notice {
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.chips {
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.chip, .alternates button {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+/* Long "Track — Artist" labels would otherwise force a horizontal scrollbar. */
+.alternates button {
+  max-width: 100%;
+  display: block;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+footer {
+  max-width: none;
+  padding: 10px 12px 20px;
+  align-items: center;
+}
+
+.footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* A footer control that reads as a link, not another pill. */
+button.link {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+button.link:hover {
+  background: none;
+  color: var(--text);
+}

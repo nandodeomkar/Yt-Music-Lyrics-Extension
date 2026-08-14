@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lyrics</title>
+  <link rel="stylesheet" href="lyrics.css">
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body data-mode="live">
+  <header class="bar">
+    <div class="song">
+      <h1 id="songTitle">Checking…</h1>
+      <p id="songMeta"></p>
+    </div>
+    <div class="actions">
+      <button id="pinBtn" type="button" hidden title="Remember this match for this song">Pin</button>
+      <button id="syncBtn" type="button" hidden title="Follow the song line by line">Sync</button>
+      <button id="romanizeBtn" type="button" hidden>Romanize</button>
+      <button id="copyBtn" type="button" hidden>Copy</button>
+      <button id="smallerBtn" type="button" title="Smaller text">A−</button>
+      <button id="biggerBtn" type="button" title="Bigger text">A+</button>
+    </div>
+  </header>
+
+  <div id="offsetBar" class="offset" hidden>
+    <span class="offset-label">Timing</span>
+    <button id="offsetDown" type="button" title="Words sooner (hold Shift for a whole second)">−</button>
+    <button id="offsetValue" type="button" class="offset-value" title="Back to no offset">0s</button>
+    <button id="offsetUp" type="button" title="Words later (hold Shift for a whole second)">+</button>
+    <span id="offsetNext" class="offset-next"></span>
+  </div>
+
+  <div id="notice" class="notice" hidden></div>
+
+  <main>
+    <section id="status" class="status">Waiting for a song…</section>
+    <pre id="lyrics" class="lyrics" hidden></pre>
+
+    <section id="alternates" class="alternates" hidden>
+      <h2>Other matches</h2>
+      <div id="alternateList" class="chips"></div>
+    </section>
+
+    <section class="fallbacks">
+      <h2>Open somewhere else</h2>
+      <div id="fallbackList" class="chips"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span id="sourceNote"></span>
+    <span class="footer-actions">
+      <button id="openTabBtn" type="button" class="link">Open in a tab</button>
+      <a href="options.html" id="optionsLink">Settings</a>
+    </span>
+  </footer>
+
+  <script src="translit.js"></script>
+  <script src="common.js"></script>
+  <script src="lyrics.js"></script>
+</body>
+</html>
